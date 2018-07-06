@@ -1,3 +1,5 @@
+@import './variables';
+
 html {
     font-family: 'Montserrat',
         -apple-system, BlinkMacSystemFont,
@@ -7,9 +9,6 @@ html {
         roboto, noto,
         'segoe ui', arial,
         sans-serif;
-}
-
-body {
-    margin: 0;
-    padding: 0;
+    background-color: $theme-black;
+    color: $text-white;
 }
