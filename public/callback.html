@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+    <title>Redirecting...</title>
+</head>
+<body>
+    Redirecting...
+    <script>
+        var hashList = window.location.hash.substr(1).split('&')
+        var accessToken = null
+
+        for (var i=0; i<hashList.length; i++) {
+            var hashItem = hashList[i].split('=');
+            if (hashItem[0] === 'access_token') {
+                accessToken = hashItem[1]
+                break
+            }
+        }
+
+        if (window.opener && accessToken) {
+            window.opener.postMessage(accessToken, window.location.origin);
+            window.close()
+        }
+    </script>
+</body>
+</html>
