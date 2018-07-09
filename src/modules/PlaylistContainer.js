@@ -37,11 +37,9 @@ class PlaylistContainer extends Component {
 
         if (token) {
             content = (
-                <div>
-                    <PlaylistList playlists={this.state.list}
-                        changePage={this.changePage}
-                        isLoading={this.state.loading} />
-                </div>
+                <PlaylistList playlists={this.state.list}
+                    changePage={this.changePage}
+                    isLoading={this.state.loading} />
             )
         }
         else {
@@ -50,7 +48,11 @@ class PlaylistContainer extends Component {
             )
         }
 
-        return content
+        return (
+            <div className="container">
+                {content}
+            </div>
+        )
     }
 
     // =====

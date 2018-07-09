@@ -5,17 +5,19 @@ import { withRouter } from 'react-router-dom'
 class AuthContainer extends Component {
     render() {
         return (
-            <div className="pa5 tc">
-                <p>
-                    <button type="button" className="pv3 ph4 ba bw1 br-pill b--green green dib bg-transparent hover-bg-green hover-white pointer no-underline"
-                        onClick={(e) => this.authClickHandler(e)}
-                    >
-                        Authorize
-                    </button>
-                </p>
-                <p>
-                    You need to authorize this web application first before proceeding.
-                </p>
+            <div className="container">
+                <div className="pa5 tc">
+                    <p>
+                        <button type="button" className="pv3 ph4 ba bw1 br-pill b--green green dib bg-transparent hover-bg-green hover-white pointer no-underline"
+                            onClick={(e) => this.authClickHandler(e)}
+                        >
+                            Authorize
+                        </button>
+                    </p>
+                    <p className="lh-copy">
+                        You need to authorize this web application first before proceeding.
+                    </p>
+                </div>
             </div>
         )
     }
