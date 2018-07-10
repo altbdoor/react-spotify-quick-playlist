@@ -18,21 +18,25 @@ class PlaylistItem extends Component {
         }
 
         return (
-            <div className="row no-gutters">
-                <div className="col-auto">
-                    <img className="db" src={playlistImage} alt={data.name} width="185" height="185" />
-                </div>
-                <div className="col">
-                    <h1 className="mt0 mb1 white truncate w-100">
-                        {data.name}
-                    </h1>
-
-                    <div className="tracked ttu f7">
-                        {data.tracks.total} song(s)
+            <div className="flex flex-row pb3">
+                <div className="flex flex-shrink-0 mw4">
+                    <div>
+                        <img className="db w-100 h-auto" src={playlistImage} alt={data.name} width="185" height="185" />
                     </div>
+                </div>
+                <div className="flex flex-grow-1 pl2">
+                    <div class="w-100">
+                        <div className="white truncate w-100 f2 f1-ns fw6">
+                            {data.name}
+                        </div>
 
-                    <a href={data.external_urls.spotify}>Open in Spotify</a> <br />
-                    <b className="dn">{data.id}</b>
+                        <div className="tracked ttu f6 mv1">
+                            {data.tracks.total} song(s)
+                        </div>
+
+                        <a href={data.external_urls.spotify}>Open in Spotify</a> <br />
+                        <b className="dn">{data.id}</b>
+                    </div>
                 </div>
             </div>
         )

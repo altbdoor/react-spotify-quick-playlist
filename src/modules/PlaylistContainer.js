@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
-import EmptyToken from './EmptyToken'
 import PlaylistList from './PlaylistList'
 
 
@@ -11,12 +10,11 @@ class PlaylistContainer extends Component {
 
         this.state = {
             list: [],
-            page: 0,
-            maxPage: 0,
+            page: this.props.match.params.page,
             loading: true,
+            prevPage: 0,
+            nextPage: 0,
         }
-
-        this.changePage = this.changePage.bind(this)
     }
 
     componentDidMount() {
@@ -27,30 +25,23 @@ class PlaylistContainer extends Component {
         if (prevState.page !== this.state.page) {
             this.updateList()
         }
+        else if (prevProps.match.params.page !== this.props.match.params.page) {
+            this.setState({
+                page: this.props.match.params.page,
+            })
+        }
     }
 
     render() {
-        const spotify = this.props.spotify
-        const token = spotify.getAccessToken()
-
-        let content = null
-
-        if (token) {
-            content = (
-                <PlaylistList playlists={this.state.list}
-                    changePage={this.changePage}
-                    isLoading={this.state.loading} />
-            )
-        }
-        else {
-            content = (
-                <EmptyToken />
-            )
-        }
+        const prevPageUrl = `/playlist/list/${this.state.prevPage}`
+        const nextPageUrl = `/playlist/list/${this.state.nextPage}`
 
         return (
-            <div className="container">
-                {content}
+            <div className="mw7 ph2 center">
+                <PlaylistList playlists={this.state.list}
+                    prevPageUrl={prevPageUrl}
+                    nextPageUrl={nextPageUrl}
+                    isLoading={this.state.loading} />
             </div>
         )
     }
@@ -60,39 +51,36 @@ class PlaylistContainer extends Component {
     updateList(limit=5) {
         const spotify = this.props.spotify
 
-        this.setState({
-            loading: true,
-        })
-
-        const queryArgs = {
-            offset: (this.state.page * limit),
-            limit: limit,
-        }
-
-        spotify.getUserPlaylists(queryArgs).then((data) => {
-            const maxPage = parseInt(data.total / limit, 10)
-
+        if (spotify.getAccessToken()) {
             this.setState({
-                list: data.items,
-                loading: false,
-                maxPage: maxPage,
+                loading: true,
             })
-        }).catch(() => {
+
+            const queryArgs = {
+                offset: (this.state.page * limit),
+                limit: limit,
+            }
+
+            spotify.getUserPlaylists(queryArgs).then((data) => {
+                const maxPage = parseInt(data.total / limit, 10)
+                const prevPage = Math.max(0, this.state.page - 1)
+                const nextPage = Math.min(maxPage, this.state.page + 1)
+
+                this.setState({
+                    list: data.items,
+                    loading: false,
+                    prevPage: prevPage,
+                    nextPage: nextPage,
+                })
+            }).catch(() => {
+                this.props.history.push('/auth/tokenexpire')
+            })
+        }
+        else {
             this.props.history.push('/auth')
-        })
+        }
     }
 
-    changePage(e, modifier) {
-        let currentPage = this.state.page
-        currentPage += modifier
-
-        currentPage = Math.max(0, currentPage)
-        currentPage = Math.min(this.state.maxPage, currentPage)
-
-        this.setState({
-            page: currentPage,
-        })
-    }
 }
 
 

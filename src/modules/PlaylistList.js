@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 import PlaylistItem from './PlaylistItem'
 
@@ -23,8 +24,9 @@ class PlaylistList extends Component {
         return (
             <div>
                 {content}
-                <button disabled={this.props.isLoading} onClick={(e) => this.props.changePage(e, -1)}>Prev</button>
-                <button disabled={this.props.isLoading} onClick={(e) => this.props.changePage(e, +1)}>Next</button>
+
+                <Link to={this.props.prevPageUrl}>Prev</Link>
+                <Link to={this.props.nextPageUrl}>Next</Link>
             </div>
         )
     }

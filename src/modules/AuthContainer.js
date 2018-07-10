@@ -4,19 +4,32 @@ import { withRouter } from 'react-router-dom'
 
 class AuthContainer extends Component {
     render() {
+        let textContent = (
+            <p className="lh-copy">
+                You need to authorize this web application first before proceeding.
+            </p>
+        )
+
+        if (this.props.match.params.error === 'tokenexpire') {
+            textContent = (
+                <p className="lh-copy">
+                    The session has expired. You need to reauthorize this web application first before proceeding.
+                </p>
+            )
+        }
+
         return (
-            <div className="container">
-                <div className="pa5 tc">
+            <div className="mw7 ph2 center">
+                <div className="pv5 tc">
                     <p>
-                        <button type="button" className="pv3 ph4 ba bw1 br-pill b--green green dib bg-transparent hover-bg-green hover-white pointer no-underline"
+                        <button type="button" className="pv3 ph4 ba bw1 br-pill b--green green dib bg-transparent hover-bg-green hover-white pointer no-underline ttu tracked fw7"
                             onClick={(e) => this.authClickHandler(e)}
                         >
                             Authorize
                         </button>
                     </p>
-                    <p className="lh-copy">
-                        You need to authorize this web application first before proceeding.
-                    </p>
+
+                    {textContent}
                 </div>
             </div>
         )
@@ -68,13 +81,13 @@ class AuthContainer extends Component {
         const popupArgsList = this.serializeArgsDict(popupArgs)
         window.open(authUrl, 'Spotify', popupArgsList.join(','))
 
-        function onAuthMessage (e) {
+        let onAuthMessage = ((e) => {
             if (e.data) {
                 self.props.setAccessToken(e.data)
                 window.removeEventListener('message', onAuthMessage, false);
-                self.props.history.push('/playlist')
+                self.props.history.push('/playlist/list/0')
             }
-        }
+        })
 
         window.addEventListener('message', onAuthMessage, false);
     }
