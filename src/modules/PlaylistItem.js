@@ -19,18 +19,18 @@ class PlaylistItem extends Component {
 
         return (
             <div className="flex flex-row pb3">
-                <div className="flex flex-shrink-0 mw4">
+                <div className="flex flex-shrink-0 mw3 mw4-ns">
                     <div>
                         <img className="db w-100 h-auto" src={playlistImage} alt={data.name} width="185" height="185" />
                     </div>
                 </div>
-                <div className="flex flex-grow-1 pl2">
-                    <div class="w-100">
-                        <div className="white truncate w-100 f2 f1-ns fw6">
+                <div className="flex flex-grow-1 pl2 minw0">
+                    <div className="w-100">
+                        <div className="white truncate w-100 f3 f1-ns fw6">
                             {data.name}
                         </div>
 
-                        <div className="tracked ttu f6 mv1">
+                        <div className="tracked ttu f7 f6-ns mv1">
                             {data.tracks.total} song(s)
                         </div>
 
