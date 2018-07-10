@@ -2,9 +2,7 @@
 <html>
 <head>
     <title>Redirecting...</title>
-</head>
-<body>
-    Redirecting...
+
     <script>
         var hashList = window.location.hash.substr(1).split('&')
         var accessToken = null
@@ -17,10 +15,13 @@
             }
         }
 
-        if (window.opener && accessToken) {
-            window.opener.postMessage(accessToken, window.location.origin);
+        if (accessToken) {
+            localStorage.setItem('spotifyAccessToken', accessToken)
             window.close()
         }
     </script>
+</head>
+<body>
+    Redirecting... Please close this window if it is not automatically closed.
 </body>
 </html>

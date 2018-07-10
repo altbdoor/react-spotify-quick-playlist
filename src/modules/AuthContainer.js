@@ -22,7 +22,7 @@ class AuthContainer extends Component {
             <div className="mw7 ph2 center">
                 <div className="pv5 tc">
                     <p>
-                        <button type="button" className="pv3 ph4 ba bw1 br-pill b--green green dib bg-transparent hover-bg-green hover-white pointer no-underline ttu tracked fw7"
+                        <button type="button" className="pv3 ph4 ba bw1 br-pill b--green green dib bg-transparent hover-bg-green hover-white pointer no-underline ttu tracked fw6"
                             onClick={(e) => this.authClickHandler(e)}
                         >
                             Authorize
@@ -81,15 +81,17 @@ class AuthContainer extends Component {
         const popupArgsList = this.serializeArgsDict(popupArgs)
         window.open(authUrl, 'Spotify', popupArgsList.join(','))
 
-        let onAuthMessage = ((e) => {
-            if (e.data) {
-                self.props.setAccessToken(e.data)
-                window.removeEventListener('message', onAuthMessage, false);
+        let onAuthStore = ((e) => {
+            const token = localStorage.getItem('spotifyAccessToken')
+            if (token) {
+                window.removeEventListener('storage', onAuthStore, false)
+                localStorage.removeItem('spotifyAccessToken')
+                self.props.setAccessToken(token)
                 self.props.history.push('/playlist/list/0')
             }
         })
 
-        window.addEventListener('message', onAuthMessage, false);
+        window.addEventListener('storage', onAuthStore, false)
     }
 
     serializeArgsDict(argDict) {

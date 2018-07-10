@@ -21,7 +21,7 @@ class App extends Component {
 
         this.setAccessToken = this.setAccessToken.bind(this)
 
-        const token = localStorage.getItem('token')
+        const token = localStorage.getItem('debugtoken')
         if (token) {
             this.spotifyService.setAccessToken(token)
         }
@@ -58,7 +58,7 @@ class App extends Component {
 
     setAccessToken(token) {
         this.spotifyService.setAccessToken(token)
-        localStorage.setItem('token', token)
+        localStorage.setItem('debugtoken', token)
     }
 
 }

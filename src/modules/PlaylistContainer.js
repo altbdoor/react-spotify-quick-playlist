@@ -10,7 +10,6 @@ class PlaylistContainer extends Component {
 
         this.state = {
             list: [],
-            page: this.props.match.params.page,
             loading: true,
             prevPage: 0,
             nextPage: 0,
@@ -22,13 +21,8 @@ class PlaylistContainer extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.page !== this.state.page) {
+        if (prevProps.match.params.page !== this.props.match.params.page) {
             this.updateList()
-        }
-        else if (prevProps.match.params.page !== this.props.match.params.page) {
-            this.setState({
-                page: this.props.match.params.page,
-            })
         }
     }
 
@@ -56,15 +50,17 @@ class PlaylistContainer extends Component {
                 loading: true,
             })
 
+            const currentPage = this.props.match.params.page
+
             const queryArgs = {
-                offset: (this.state.page * limit),
+                offset: (currentPage * limit),
                 limit: limit,
             }
 
             spotify.getUserPlaylists(queryArgs).then((data) => {
                 const maxPage = parseInt(data.total / limit, 10)
-                const prevPage = Math.max(0, this.state.page - 1)
-                const nextPage = Math.min(maxPage, this.state.page + 1)
+                const prevPage = Math.max(0, currentPage - 1)
+                const nextPage = Math.min(maxPage, currentPage + 1)
 
                 this.setState({
                     list: data.items,
@@ -79,6 +75,10 @@ class PlaylistContainer extends Component {
         else {
             this.props.history.push('/auth')
         }
+    }
+
+    unfollowPlaylist(e, playlistId) {
+        // https://developer.spotify.com/documentation/general/guides/working-with-playlists/#following-and-unfollowing-a-playlist
     }
 
 }

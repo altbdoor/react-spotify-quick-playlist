@@ -31,7 +31,7 @@ class PlaylistItem extends Component {
                         </div>
 
                         <div className="tracked ttu f7 f6-ns mv1">
-                            {data.tracks.total} song(s)
+                            {data.tracks.total} songs
                         </div>
 
                         <a href={data.external_urls.spotify}>Open in Spotify</a> <br />
