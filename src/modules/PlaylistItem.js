@@ -21,7 +21,7 @@ class PlaylistItem extends Component {
             <div className="flex flex-row pb3">
                 <div className="flex flex-shrink-0 mw3 mw4-ns">
                     <div>
-                        <img className="db w-100 h-auto" src={playlistImage} alt={data.name} width="185" height="185" />
+                        <img className="db w-100 h-auto shadow-1" src={playlistImage} alt={data.name} width="185" height="185" />
                     </div>
                 </div>
                 <div className="flex flex-grow-1 pl2 minw0">
