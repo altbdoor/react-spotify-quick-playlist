@@ -11,6 +11,6 @@ patch_url="https://github.com/marcosbozzani/node-sass/commit/266861bf5761dcafd5d
 
 curl -o patch.diff -L ${patch_url}
 
-patch render.js < patch.diff
+patch -N render.js < patch.diff
 
 rm patch.diff
