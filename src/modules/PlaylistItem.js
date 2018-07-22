@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 
+import playlistLogo from '../img/music.png'
+
 
 class PlaylistItem extends Component {
     render() {
         const data = this.props.data
 
         const images = data.images
-        let playlistImage = null
+        let playlistImage = playlistLogo
 
         if (images.length > 0) {
             if (images.length === 1) {
