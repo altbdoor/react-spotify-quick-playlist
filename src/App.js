@@ -47,7 +47,7 @@ class App extends Component {
             <HashRouter>
                 <Switch>
                     <Route path="/auth/:error?" render={InjectedAuthContainer} />
-                    <Route path="/playlist/list/:page?" render={InjectedPlaylistContainer} />
+                    <Route path="/playlist" render={InjectedPlaylistContainer} />
                     <Redirect to="/auth" />
                 </Switch>
             </HashRouter>
