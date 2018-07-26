@@ -14,9 +14,11 @@ class PlaylistList extends Component {
             loading: true,
             prevPage: 0,
             nextPage: 0,
+            maxPage: 0,
         }
 
         this.deletePlaylist = this.deletePlaylist.bind(this)
+        this.createPlaylist = this.createPlaylist.bind(this)
     }
 
     componentDidMount() {
@@ -37,7 +39,7 @@ class PlaylistList extends Component {
 
         if (this.state.loading) {
             content = (
-                <div className="pb2 tc f3 f1-ns fw6">Loading...</div>
+                <div className="pv2 tc f3 f1-ns fw6">Loading...</div>
             )
         }
         else {
@@ -56,14 +58,26 @@ class PlaylistList extends Component {
             no-underline ttu tracked fw6
         `
 
+        const displayCurrentPage = parseInt(this.props.match.params.page, 10) + 1
+        const displayMaxPage = this.state.maxPage + 1
+
         return (
             <div>
+                <div className="flex justify-end pb3">
+                    <button type="button" className={btnClass} onClick={(e) => this.createPlaylist(e)}>
+                        New Playlist
+                    </button>
+                </div>
+
                 {content}
 
-                <div className="flex justify-between">
+                <div className="flex justify-between items-center">
                     <Link to={prevPageUrl} className={btnClass}>
                         Prev
                     </Link>
+                    <div>
+                        {displayCurrentPage} / {displayMaxPage}
+                    </div>
                     <Link to={nextPageUrl} className={btnClass}>
                         Next
                     </Link>
@@ -82,7 +96,7 @@ class PlaylistList extends Component {
                 loading: true,
             })
 
-            const currentPage = this.props.match.params.page
+            const currentPage = parseInt(this.props.match.params.page, 10)
 
             const queryArgs = {
                 offset: (currentPage * limit),
@@ -99,6 +113,7 @@ class PlaylistList extends Component {
                     loading: false,
                     prevPage: prevPage,
                     nextPage: nextPage,
+                    maxPage: maxPage,
                 })
             }).catch(() => {
                 this.props.history.push('/auth/tokenexpire')
@@ -109,14 +124,38 @@ class PlaylistList extends Component {
         }
     }
 
+    createPlaylist(e) {
+        swalPatch({
+            title: 'New Playlist',
+            input: 'text',
+            inputPlaceholder: 'Playlist name',
+            showCancelButton: true,
+            inputValidator: ((value) => {
+                return !value && 'Invalid playlist name'
+            })
+        }).then((result) => {
+            if (result.value) {
+                const spotify = this.props.spotify
+                spotify.lazyGetId().then((id) => {
+                    spotify.createPlaylist(id, {
+                        name: result.value,
+                    })
+                })
+            }
+        })
+    }
+
     deletePlaylist(e, playlistName, playlistId) {
-        // https://developer.spotify.com/documentation/general/guides/working-with-playlists/#following-and-unfollowing-a-playlist
-        // console.log(playlistId)
+        const deleteSpotifyUrl = 'https://developer.spotify.com/documentation/general/guides/working-with-playlists/#following-and-unfollowing-a-playlist'
 
         swalPatch({
             type: 'warning',
             title: `Delete "${playlistName}"?`,
-            text: `Are you sure you want to delete the playlist?`,
+            html: `
+                Are you sure you want to delete the playlist?
+                Do note that its not possible to
+                <a target="_blank" class="green" href="${deleteSpotifyUrl}">completely delete a playlist</a>.
+            `,
             showCancelButton: true,
             confirmButtonText: `Yes, delete it`,
             cancelButtonText: `No, cancel`,

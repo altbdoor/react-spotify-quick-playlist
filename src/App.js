@@ -14,10 +14,27 @@ import PlaylistContainer from './modules/PlaylistContainer'
 
 class App extends Component {
     spotifyClientID = 'c9f614b01e0c4cc09f5539f0fd695a60'
-    spotifyService = new SpotifyWebApi()
+    spotifyService = null
 
     constructor(props) {
         super(props)
+
+        SpotifyWebApi.prototype.lazyGetId = function () {
+            const promise = new Promise((resolve, reject) => {
+                if (!this.__userId) {
+                    this.getMe().then((data) => {
+                        this.__userId = data.id
+                        resolve(this.__userId)
+                    })
+                }
+                else {
+                    resolve(this.__userId)
+                }
+            })
+
+            return promise
+        }
+        this.spotifyService = new SpotifyWebApi()
 
         this.setAccessToken = this.setAccessToken.bind(this)
 
@@ -25,6 +42,12 @@ class App extends Component {
         if (token) {
             this.spotifyService.setAccessToken(token)
         }
+
+        // this.spotifyService.lazyGetId().then((x) => { console.log('before', x) })
+        // setTimeout(() => {
+        //     this.spotifyService.lazyGetId().then((x) => { console.log('after', x) })
+        // }, 1000)
+
     }
 
     render() {

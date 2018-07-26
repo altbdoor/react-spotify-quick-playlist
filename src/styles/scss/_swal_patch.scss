@@ -4,4 +4,34 @@
     .swal2-title, .swal2-content {
         color: #fff;
     }
+
+    .swal2-actions {
+        flex-direction: column;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .swal2-content {
+        font-size: 1rem;
+    }
+
+    .swal2-input {
+        border-radius: 0;
+        font-size: 1rem;
+
+        &, &:focus {
+            border-color: #999;
+            border-width: 0 0 2px 0;
+            box-shadow: none;
+        }
+
+        &.swal2-inputerror {
+            box-shadow: none !important;
+        }
+    }
+
+    .swal2-validationerror {
+        background-color: transparent;
+        color: #f27474;
+    }
 }
