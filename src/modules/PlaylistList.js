@@ -116,11 +116,11 @@ class PlaylistList extends Component {
                     maxPage: maxPage,
                 })
             }).catch(() => {
-                this.props.history.push('/auth/tokenexpire')
+                this.redirectToAuth(true)
             })
         }
         else {
-            this.props.history.push('/auth')
+            this.redirectToAuth()
         }
     }
 
@@ -136,10 +136,13 @@ class PlaylistList extends Component {
         }).then((result) => {
             if (result.value) {
                 const spotify = this.props.spotify
+
                 spotify.lazyGetId().then((id) => {
-                    spotify.createPlaylist(id, {
+                    return spotify.createPlaylist(id, {
                         name: result.value,
                     })
+                }).finally(() => {
+                    this.updateList()
                 })
             }
         })
@@ -159,7 +162,26 @@ class PlaylistList extends Component {
             showCancelButton: true,
             confirmButtonText: `Yes, delete it`,
             cancelButtonText: `No, cancel`,
+        }).then((result) => {
+            if (result.value) {
+                const spotify = this.props.spotify
+
+                spotify.lazyGetId().then((id) => {
+                    return spotify.unfollowPlaylist(id, playlistId)
+                }).finally(() => {
+                    this.updateList()
+                })
+            }
         })
+    }
+
+    redirectToAuth(isExpired=false) {
+        if (isExpired) {
+            this.props.history.push('/auth/tokenexpire')
+        }
+        else {
+            this.props.history.push('/auth')
+        }
     }
 
 }

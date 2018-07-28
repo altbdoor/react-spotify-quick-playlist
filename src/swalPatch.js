@@ -25,7 +25,7 @@ const inputClass = `
 
 const swalPatch = swal.mixin({
     buttonsStyling: false,
-    focusConfirm: false,
+    // focusConfirm: false,
     confirmButtonClass: confirmBtnClass,
     cancelButtonClass: cancelBtnClass,
     inputClass: inputClass,

@@ -48,7 +48,7 @@ class PlaylistListItem extends Component {
                         </div>
 
                         <div>
-                            <Link to={editUrl} className={`${btnClass}`}>
+                            <Link to={editUrl} className={`${btnClass} b--green green hover-bg-green hover-white`}>
                                 Open
                             </Link>
                             <button type="button" className={`${btnClass} b--red red hover-bg-red hover-white`}

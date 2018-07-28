@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom'
 
 import PlaylistList from './PlaylistList'
+import PlaylistEdit from './PlaylistEdit'
 
 
 class PlaylistContainer extends Component {
@@ -13,6 +14,12 @@ class PlaylistContainer extends Component {
         const InjectedPlaylistList = (props) => {
             return (
                 <PlaylistList spotify={this.props.spotify}
+                    {...props} />
+            )
+        }
+        const InjectedPlaylistEdit = (props) => {
+            return (
+                <PlaylistEdit spotify={this.props.spotify}
                     {...props} />
             )
         }
@@ -25,7 +32,8 @@ class PlaylistContainer extends Component {
         return (
             <div className="mw7 pa2 center">
                 <Switch>
-                    <Route path="/playlist/list/:page?" exact render={InjectedPlaylistList} />
+                    <Route exact path="/playlist/list/:page" render={InjectedPlaylistList} />
+                    <Route exact path="/playlist/edit/:playlistId" render={InjectedPlaylistEdit} />
                     <Route path="/playlist/test" render={TestStuff} />
                 </Switch>
             </div>
