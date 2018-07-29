@@ -21,7 +21,7 @@
     "eject": "react-scripts eject",
     "start-js": "react-scripts start",
     "build-js": "react-scripts build",
-    "watch-css": "node-sass-chokidar --include-path ./src/styles/scss --include-path ./node_modules src/styles/scss/ -o src/styles/css --watch --recursive",
-    "build-css": "node-sass-chokidar --include-path ./src/styles/scss --include-path ./node_modules src/styles/scss/ -o src/styles/css"
+    "watch-css": "node-sass-chokidar --include-path src/styles/scss/ --include-path node_modules/ -o src/styles/css/ --watch src/styles/scss/index.scss",
+    "build-css": "node-sass-chokidar --include-path src/styles/scss/ --include-path node_modules/ -o src/styles/css/ src/styles/scss/index.scss"
   }
 }
