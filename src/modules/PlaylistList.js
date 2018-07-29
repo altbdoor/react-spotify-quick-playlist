@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link, withRouter } from 'react-router-dom'
 
 import swalPatch from '../swalPatch'
+import BasePlaylistComponent from './BasePlaylistComponent'
 import PlaylistListItem from './PlaylistListItem'
 
 
-class PlaylistList extends Component {
+class PlaylistList extends BasePlaylistComponent {
     constructor(props) {
         super(props)
 
@@ -51,20 +52,13 @@ class PlaylistList extends Component {
             })
         }
 
-        const btnClass = `
-            dib pv2 ph3 pv3-ns ph4-ns
-            ba bw1 br-pill b--mid-gray mid-gray bg-transparent
-            hover-bg-mid-gray hover-white pointer
-            no-underline ttu tracked fw6
-        `
-
         const displayCurrentPage = parseInt(this.props.match.params.page, 10) + 1
         const displayMaxPage = this.state.maxPage + 1
 
         return (
             <div>
                 <div className="flex justify-end pb3">
-                    <button type="button" className={btnClass} onClick={(e) => this.createPlaylist(e)}>
+                    <button type="button" className={this.baseBtnClass} onClick={(e) => this.createPlaylist(e)}>
                         New Playlist
                     </button>
                 </div>
@@ -72,13 +66,13 @@ class PlaylistList extends Component {
                 {content}
 
                 <div className="flex justify-between items-center">
-                    <Link to={prevPageUrl} className={btnClass}>
+                    <Link to={prevPageUrl} className={this.baseBtnClass}>
                         Prev
                     </Link>
                     <div>
                         {displayCurrentPage} / {displayMaxPage}
                     </div>
-                    <Link to={nextPageUrl} className={btnClass}>
+                    <Link to={nextPageUrl} className={this.baseBtnClass}>
                         Next
                     </Link>
                 </div>

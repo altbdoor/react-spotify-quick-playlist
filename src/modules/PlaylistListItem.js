@@ -1,24 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
-import playlistLogo from '../img/music.png'
+import BasePlaylistComponent from './BasePlaylistComponent'
 
 
-class PlaylistListItem extends Component {
+class PlaylistListItem extends BasePlaylistComponent {
     render() {
         const data = this.props.data
-
-        const images = data.images
-        let playlistImage = playlistLogo
-
-        if (images.length > 0) {
-            if (images.length === 1) {
-                playlistImage = images[0].url
-            }
-            else {
-                playlistImage = images[1].url
-            }
-        }
+        const playlistImage = this.getPlaylistImage(data.images)
 
         const editUrl = `/playlist/edit/${data.id}`
         const btnClass = `
