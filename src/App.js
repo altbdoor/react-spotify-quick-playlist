@@ -25,6 +25,8 @@ class App extends Component {
                     this.getMe().then((data) => {
                         this.__userId = data.id
                         resolve(this.__userId)
+                    }).catch(() => {
+                        reject()
                     })
                 }
                 else {
